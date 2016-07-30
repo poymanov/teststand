@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\Job;
 
 class SiteController extends Controller
 {
@@ -121,5 +122,20 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    public function actionCreateJob() {
+
+        $job = new Job;
+        $job->status = 1;
+
+        if ($job->save()) {
+            Yii::$app->session->setFlash('Задача поставлена в очередь выполнения');
+            return $this->redirect('about');
+        } else {
+            print_r($job->errors);
+        }
+
+
     }
 }
